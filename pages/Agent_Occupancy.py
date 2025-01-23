@@ -7,7 +7,7 @@ from datetime import datetime
 
 st.set_page_config(
     page_title="Agent Occupancy Analysis",
-    page_icon="📊",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -39,31 +39,42 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("📊 Agent Occupancy Analysis")
+st.title("")
 st.markdown("""
     This dashboard provides detailed insights into agent occupancy, utilization, and time distribution metrics.
     Upload your CSV file to begin the analysis.
 """)
 
 def time_to_seconds(time_str):
-    if pd.isna(time_str) or time_str == '':
+    """Convert time string to seconds"""
+    if pd.isna(time_str) or time_str == '' or not isinstance(time_str, str):
         return 0
     try:
         h, m, s = map(int, time_str.split(':'))
         return h * 3600 + m * 60 + s
-    except:
+    except Exception as e:
+        st.write(f"Error converting time {time_str}: {str(e)}")
         return 0
 
 def format_time(seconds):
-    hours = seconds // 3600
-    minutes = (seconds % 3600) // 60
+    """Format seconds to HH:MM"""
+    if not isinstance(seconds, (int, float)) or pd.isna(seconds):
+        return "00:00"
+    hours = int(seconds) // 3600
+    minutes = (int(seconds) % 3600) // 60
     return f"{hours:02d}:{minutes:02d}"
 
 def format_percentage(value):
-    return f"{value:.1f}%"
+    """Format value as percentage"""
+    if pd.isna(value):
+        return "0.0%"
+    return f"{float(value):.1f}%"
 
 def create_visualizations(df):
     try:
+        st.write("Starting data processing...")
+        st.write("Initial columns:", df.columns.tolist())
+        
         # Convert time columns to seconds
         time_columns = ['LOGIN TIME', 'NOT READY TIME', 'WAIT TIME', 'RINGING TIME', 
                        'ON CALL TIME', 'ON VOICEMAIL TIME', 'ON ACW TIME', 
@@ -71,13 +82,18 @@ def create_visualizations(df):
         
         for col in time_columns:
             if col in df.columns:
+                st.write(f"Converting {col}")
                 df[f'{col}_SECONDS'] = df[col].apply(time_to_seconds)
 
+        st.write("Time columns converted successfully")
+        
         # Calculate additional metrics
         df['Full Name'] = df['AGENT FIRST NAME'].fillna('') + ' ' + df['AGENT LAST NAME'].fillna('')
         df['Total Active Time'] = df['ON CALL TIME_SECONDS'] + df['ON ACW TIME_SECONDS']
         df['Occupancy %'] = (df['Total Active Time'] / df['LOGIN TIME_SECONDS'] * 100).fillna(0)
         df['Utilization %'] = (df['Total Active Time'] / (df['LOGIN TIME_SECONDS'] - df['NOT READY TIME_SECONDS']) * 100).fillna(0)
+        
+        st.write("Metrics calculated successfully")
         
         # Top-level metrics
         total_agents = len(df)
@@ -88,21 +104,21 @@ def create_visualizations(df):
         total_login_time = df['LOGIN TIME_SECONDS'].sum()
 
         # Create metrics section with two rows
-        st.markdown("### 📈 Performance Metrics")
+        st.markdown("### Performance Metrics")
         
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("👥 Total Agents", total_agents)
-            st.metric("⏰ Avg Login Time", format_time(int(avg_login_time)))
+            st.metric("", total_agents)
+            st.metric("", format_time(int(avg_login_time)))
         with col2:
-            st.metric("📊 Average Occupancy", format_percentage(avg_occupancy))
-            st.metric("🎯 Average Utilization", format_percentage(avg_utilization))
+            st.metric("", format_percentage(avg_occupancy))
+            st.metric("", format_percentage(avg_utilization))
         with col3:
-            st.metric("☎️ Total Call Hours", format_time(int(total_calls_time)))
-            st.metric("⌛ Total Login Hours", format_time(int(total_login_time)))
+            st.metric("", format_time(int(total_calls_time)))
+            st.metric("", format_time(int(total_login_time)))
 
         # Create tabs for different views
-        tab1, tab2, tab3, tab4 = st.tabs(["📊 Time Distribution", "🎯 Agent Performance", "📈 Hourly Trends", "📑 Detailed Data"])
+        tab1, tab2, tab3, tab4 = st.tabs([" Time Distribution", " Agent Performance", " Hourly Trends", " Detailed Data"])
         
         with tab1:
             col1, col2 = st.columns(2)
@@ -259,7 +275,7 @@ def create_visualizations(df):
             st.plotly_chart(fig_hourly, use_container_width=True)
 
         with tab4:
-            st.subheader("📑 Detailed Data View")
+            st.subheader(" Detailed Data View")
             
             # Prepare data for display
             display_df = df[[
@@ -280,7 +296,7 @@ def create_visualizations(df):
             # Add download button
             csv = display_df.to_csv(index=False)
             st.download_button(
-                label="📥 Download Data",
+                label=" Download Data",
                 data=csv,
                 file_name="agent_occupancy_data.csv",
                 mime="text/csv"
@@ -325,4 +341,4 @@ if uploaded_file is not None:
         st.error(f"Error reading the file: {str(e)}")
         st.error("Please make sure your CSV file is in the correct format")
 else:
-    st.info("👆 Please upload a CSV file to begin the analysis.")
+    st.info(" Please upload a CSV file to begin the analysis.")
