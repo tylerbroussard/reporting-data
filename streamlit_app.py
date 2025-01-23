@@ -77,7 +77,7 @@ def create_visualizations(df):
         with col1:
             start_date = df['DATE'].min().strftime('%m/%d/%y')
             end_date = df['DATE'].max().strftime('%m/%d/%y')
-            st.metric("📅 Date Range", f"{start_date}\nto\n{end_date}")
+            st.metric("📅 Date Range", f"{start_date}\n-\n{end_date}")
         
         # Create tabs for different views
         tab1, tab2 = st.tabs(["📊 Charts", "📑 Detailed Data"])
