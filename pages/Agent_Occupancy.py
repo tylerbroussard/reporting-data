@@ -6,14 +6,27 @@ from plotly.subplots import make_subplots
 from datetime import datetime
 
 st.set_page_config(
-    page_title="Agent Occupancy Analysis",
-    page_icon="📊",
-    layout="wide"
+    page_title="Not Ready Time After Login Analysis",
+    page_icon="⏱️",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Add custom CSS
+# Hide streamlit branding
 st.markdown("""
     <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    [data-testid="stSidebarNav"]::before {
+        content: "Not Ready Time After Login Analysis";
+        margin-left: 20px;
+        margin-top: 20px;
+        font-size: 24px;
+        position: relative;
+        top: 20px;
+        display: block;
+    }
     .metric-row {
         background-color: #f0f2f6;
         padding: 1rem;
@@ -32,9 +45,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("📊 Agent Occupancy Analysis")
+st.title("⏱️ Not Ready Time After Login Analysis")
 st.markdown("""
-    This dashboard provides detailed insights into agent occupancy, utilization, and time distribution metrics.
+    This dashboard provides detailed insights into agent not ready time after login metrics.
     Upload your CSV file to begin the analysis.
 """)
 
