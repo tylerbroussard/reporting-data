@@ -7,31 +7,6 @@ st.set_page_config(
 )
 
 st.title("📊 Agent Analytics Dashboard")
-st.markdown("""
-Welcome to the Agent Analytics Dashboard! This application provides comprehensive analytics for your contact center operations.
-
-### Available Reports
-
-1. **⏱️ Not Ready Time Analysis**
-   - Track agent not ready time
-   - View daily trends and patterns
-   - Analyze individual agent performance
-
-2. **📞 Agent Productivity Exceptions**
-   - Monitor call handling exceptions
-   - Analyze performance by agent group
-   - Track various exception types
-
-### How to Use
-
-1. Select a report from the sidebar on the left
-2. Upload the corresponding CSV file
-3. Explore the interactive visualizations and data
-
-### Need Help?
-
-Each report page includes specific instructions about the required CSV format and available features.
-""")
 
 # Add custom CSS for better styling
 st.markdown("""
@@ -45,5 +20,48 @@ st.markdown("""
     h3 {
         margin-top: 2rem;
     }
+    .highlight {
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        background-color: #f0f2f6;
+        margin: 1rem 0;
+    }
     </style>
 """, unsafe_allow_html=True)
+
+# Welcome message
+st.markdown("""
+Welcome to the Five9 Agent Analytics Dashboard! This application helps you analyze agent performance data.
+""")
+
+# Report descriptions in highlighted boxes
+st.markdown("""
+<div class="highlight">
+<h3>⏱️ Not Ready Time Analysis</h3>
+<ul>
+<li>Track agent not ready time</li>
+<li>View daily trends and patterns</li>
+<li>Analyze individual agent performance</li>
+</ul>
+</div>
+
+<div class="highlight">
+<h3>📞 Agent Productivity Exceptions</h3>
+<ul>
+<li>Monitor call handling exceptions</li>
+<li>Analyze performance by agent group</li>
+<li>Track various exception types</li>
+</ul>
+</div>
+""", unsafe_allow_html=True)
+
+# Instructions
+st.markdown("""
+### Getting Started
+
+1. Select a report from the sidebar on the left
+2. Upload the corresponding CSV file
+3. Explore the interactive visualizations and data
+
+Each report page includes specific instructions about the required CSV format and available features.
+""")
