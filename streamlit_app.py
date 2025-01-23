@@ -6,8 +6,17 @@ from plotly.subplots import make_subplots
 st.set_page_config(
     page_title="Not Ready Analysis",
     page_icon="⏱️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': None,
+        'Report a bug': None,
+        'About': None
+    }
 )
+
+# Rename the page in the sidebar
+st.sidebar.header("Not Ready Time Analysis")
 
 # Add custom CSS
 st.markdown("""
