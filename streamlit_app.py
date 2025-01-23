@@ -26,8 +26,7 @@ st.markdown("""
         border-radius: 0.5rem;
     }
     div[data-testid="stMetricValue"] > div {
-        white-space: pre-wrap !important;
-        word-break: break-word !important;
+        font-size: 1.2rem !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -75,9 +74,9 @@ def create_visualizations(df):
         with col3:
             st.metric("⌛ Avg Minutes per Agent", f"{(df['NOT READY SECONDS'].mean() / 60):.2f}")
         with col1:
-            start_date = df['DATE'].min().strftime('%m/%d/%y')
+            start_date = df['DATE'].min().strftime('%m/%d')
             end_date = df['DATE'].max().strftime('%m/%d/%y')
-            st.metric("📅 Date Range", f"{start_date}\n-\n{end_date}")
+            st.metric("Date Range", f"{start_date} → {end_date}")
         
         # Create tabs for different views
         tab1, tab2 = st.tabs(["📊 Charts", "📑 Detailed Data"])
