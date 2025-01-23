@@ -1,18 +1,9 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from datetime import datetime
-import io
 
-# Configure Streamlit page
-st.set_page_config(
-    page_title="Not Ready Time Analysis",
-    page_icon="⏱️",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+st.set_page_config(page_title="Not Ready Analysis", layout="wide")
 
 # Add custom CSS
 st.markdown("""
@@ -31,8 +22,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Title and description
-st.title("📊 Not Ready Time Analysis Dashboard")
+st.title("⏱️ Not Ready Time Analysis")
 st.markdown("""
     This dashboard analyzes agent not ready time data. Upload your CSV file to get started.
     
@@ -41,9 +31,6 @@ st.markdown("""
     - `NOT READY TIME` (in HH:MM:SS format)
     - `DATE`
 """)
-
-# File uploader
-uploaded_file = st.file_uploader("Upload your Not Ready Time CSV file", type=['csv'])
 
 def time_to_seconds(time_str):
     try:
@@ -136,16 +123,6 @@ def create_visualizations(df):
             st.plotly_chart(fig, use_container_width=True)
         
         with tab2:
-            # Add detailed data tables
-            st.subheader("Top 10 Agents by Not Ready Time")
-            top_10_agents = agent_total.head(10).reset_index()
-            top_10_agents.columns = ['Agent Name', 'Total Not Ready Time (seconds)']
-            top_10_agents['Total Not Ready Time (hours)'] = top_10_agents['Total Not Ready Time (seconds)'] / 3600
-            st.dataframe(
-                top_10_agents[['Agent Name', 'Total Not Ready Time (hours)']],
-                hide_index=True
-            )
-            
             # Add date filter for detailed view
             st.subheader("📅 Daily Not Ready Time Details")
             date_range = st.date_input(
@@ -163,115 +140,9 @@ def create_visualizations(df):
                 daily_stats = filtered_df.groupby(['DATE', 'AGENT NAME'])['NOT READY SECONDS'].sum().reset_index()
                 daily_stats['NOT READY HOURS'] = daily_stats['NOT READY SECONDS'] / 3600
                 
-                # Create daily summary metrics
-                st.markdown("#### 📊 Daily Summary")
-                
-                # Calculate metrics separately to avoid nested renamer
-                total_hours = filtered_df.groupby('DATE')['NOT READY SECONDS'].sum() / 3600
-                active_agents = filtered_df.groupby('DATE')['AGENT NAME'].nunique()
-                avg_hours = total_hours / active_agents
-                
-                daily_summary = pd.DataFrame({
-                    'DATE': total_hours.index,
-                    'Total Hours': total_hours.values,
-                    'Average Hours': avg_hours.values,
-                    'Active Agents': active_agents.values
-                })
-                
-                # Display daily summary chart
-                fig_daily = go.Figure()
-                fig_daily.add_trace(go.Bar(
-                    name='Total Hours',
-                    x=daily_summary['DATE'],
-                    y=daily_summary['Total Hours'],
-                    marker_color='rgb(55, 83, 109)'
-                ))
-                fig_daily.add_trace(go.Scatter(
-                    name='Average Hours per Agent',
-                    x=daily_summary['DATE'],
-                    y=daily_summary['Average Hours'],
-                    mode='lines+markers',
-                    marker_color='rgb(26, 118, 255)',
-                    yaxis='y2'
-                ))
-                
-                fig_daily.update_layout(
-                    title='Daily Not Ready Time Overview',
-                    yaxis=dict(title='Total Hours'),
-                    yaxis2=dict(title='Average Hours per Agent', overlaying='y', side='right'),
-                    height=400,
-                    showlegend=True,
-                    legend=dict(
-                        orientation="h",
-                        yanchor="bottom",
-                        y=1.02,
-                        xanchor="right",
-                        x=1
-                    )
-                )
-                st.plotly_chart(fig_daily, use_container_width=True)
-                
-                # Display daily summary metrics
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    st.metric(
-                        "Average Daily Hours",
-                        f"{daily_summary['Total Hours'].mean():.2f}",
-                        f"{daily_summary['Total Hours'].std():.2f} std"
-                    )
-                with col2:
-                    st.metric(
-                        "Peak Day Hours",
-                        f"{daily_summary['Total Hours'].max():.2f}",
-                        f"on {daily_summary.loc[daily_summary['Total Hours'].idxmax(), 'DATE'].strftime('%Y-%m-%d')}"
-                    )
-                with col3:
-                    st.metric(
-                        "Average Active Agents",
-                        f"{daily_summary['Active Agents'].mean():.0f}",
-                        f"{daily_summary['Active Agents'].std():.1f} std"
-                    )
-                
-                # Display detailed data table with improvements
-                st.markdown("#### 📋 Detailed Agent Data")
-                
-                # Add agent filter
-                agents = sorted(filtered_df['AGENT NAME'].unique())
-                selected_agents = st.multiselect(
-                    "Filter by Agents",
-                    agents,
-                    default=[]
-                )
-                
-                # Filter by selected agents if any are selected
-                if selected_agents:
-                    daily_stats = daily_stats[daily_stats['AGENT NAME'].isin(selected_agents)]
-                
-                # Sort options
-                sort_options = {
-                    'Date (Ascending)': ('DATE', True),
-                    'Date (Descending)': ('DATE', False),
-                    'Hours (Highest First)': ('NOT READY HOURS', False),
-                    'Hours (Lowest First)': ('NOT READY HOURS', True),
-                    'Agent Name': ('AGENT NAME', True)
-                }
-                
-                sort_by = st.selectbox(
-                    "Sort by",
-                    list(sort_options.keys())
-                )
-                
-                # Sort the dataframe based on selection
-                sort_col, sort_asc = sort_options[sort_by]
-                daily_stats = daily_stats.sort_values(
-                    by=[sort_col, 'AGENT NAME' if sort_col != 'AGENT NAME' else 'DATE'],
-                    ascending=[sort_asc, True]
-                )
-                
-                # Display the dataframe with formatted columns
+                # Display the dataframe
                 st.dataframe(
-                    daily_stats.style
-                    .format({
+                    daily_stats.style.format({
                         'DATE': lambda x: x.strftime('%Y-%m-%d'),
                         'NOT READY HOURS': '{:.2f}'
                     }),
@@ -292,6 +163,9 @@ def create_visualizations(df):
         st.error(f"Error processing the data: {str(e)}")
         st.error("Please make sure your CSV file is in the correct format")
 
+# File uploader
+uploaded_file = st.file_uploader("Upload your Not Ready Time CSV file", type=['csv'])
+
 if uploaded_file is not None:
     try:
         df = pd.read_csv(uploaded_file)
@@ -300,10 +174,6 @@ if uploaded_file is not None:
             create_visualizations(df)
         else:
             st.error(f"The CSV file must contain these columns: {', '.join(required_columns)}")
-            st.markdown("#### Sample CSV Format:")
-            st.code("""AGENT NAME,NOT READY TIME,DATE
-John Doe,00:15:30,2024/12/31
-Jane Smith,00:05:45,2024/12/31""")
     except Exception as e:
         st.error(f"Error reading the file: {str(e)}")
 else:
