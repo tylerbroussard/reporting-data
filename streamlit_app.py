@@ -25,16 +25,7 @@ st.markdown("""
         padding: 1rem;
         border-radius: 0.5rem;
     }
-    .metric-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    .metric-container > div {
-        flex: 1;
-        min-width: 200px;
-    }
-    .metric-value {
+    div[data-testid="stMetricValue"] {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -76,34 +67,18 @@ def create_visualizations(df):
         
         # Create metrics
         st.markdown("### 📈 Key Metrics")
+        col1, col2, col3, col4 = st.columns([1, 1, 1, 1.2])
         
-        # Create a container for metrics with custom CSS
-        st.markdown('<div class="metric-container">', unsafe_allow_html=True)
-        
-        # Column 1
-        st.markdown('<div>', unsafe_allow_html=True)
-        st.metric("👥 Total Agents", len(agent_total))
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Column 2
-        st.markdown('<div>', unsafe_allow_html=True)
-        st.metric("⏱️ Total Not Ready Hours", f"{(df['NOT READY SECONDS'].sum() / 3600):.2f}")
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Column 3
-        st.markdown('<div>', unsafe_allow_html=True)
-        st.metric("⌛ Avg Minutes per Agent", f"{(df['NOT READY SECONDS'].mean() / 60):.2f}")
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Column 4
-        st.markdown('<div>', unsafe_allow_html=True)
-        start_date = df['DATE'].min().strftime('%m/%d/%y')
-        end_date = df['DATE'].max().strftime('%m/%d/%y')
-        st.metric("📅 Date Range", f"{start_date} - {end_date}")
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Close the container
-        st.markdown('</div>', unsafe_allow_html=True)
+        with col1:
+            st.metric("👥 Total Agents", len(agent_total))
+        with col2:
+            st.metric("⏱️ Total Not Ready Hours", f"{(df['NOT READY SECONDS'].sum() / 3600):.2f}")
+        with col3:
+            st.metric("⌛ Avg Minutes per Agent", f"{(df['NOT READY SECONDS'].mean() / 60):.2f}")
+        with col4:
+            start_date = df['DATE'].min().strftime('%m/%d/%y')
+            end_date = df['DATE'].max().strftime('%m/%d/%y')
+            st.metric("📅 Date Range", f"{start_date} - {end_date}")
         
         # Create tabs for different views
         tab1, tab2 = st.tabs(["📊 Charts", "📑 Detailed Data"])
