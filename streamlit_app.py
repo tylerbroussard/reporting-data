@@ -69,13 +69,13 @@ def create_visualizations(df):
         st.markdown("### 📈 Key Metrics")
         col1, col2, col3, col4 = st.columns([1, 1, 1, 1.2])
         
-        with col1:
+        with col2:
             st.metric("👥 Total Agents", len(agent_total))
         with col4:
             st.metric("⏱️ Total Not Ready Hours", f"{(df['NOT READY SECONDS'].sum() / 3600):.2f}")
         with col3:
             st.metric("⌛ Avg Minutes per Agent", f"{(df['NOT READY SECONDS'].mean() / 60):.2f}")
-        with col2:
+        with col1:
             start_date = df['DATE'].min().strftime('%m/%d/%y')
             end_date = df['DATE'].max().strftime('%m/%d/%y')
             st.metric("📅 Date Range", f"{start_date} - {end_date}")
