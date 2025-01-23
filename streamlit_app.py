@@ -27,19 +27,31 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
-    /* Hide default sidebar title */
-    [data-testid="stSidebarNav"] > ul {
-        display: none;
+    /* Style the navigation */
+    [data-testid="stSidebarNav"] {
+        background-color: #f8f9fa;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
     }
-    /* Add custom sidebar title */
+    [data-testid="stSidebarNav"] > ul {
+        padding-top: 2rem;
+    }
+    [data-testid="stSidebarNav"] span {
+        color: #1f2937;
+        font-size: 1rem;
+    }
+    [data-testid="stSidebarNav"] span:hover {
+        color: #2563eb;
+    }
+    /* Add title above navigation */
     [data-testid="stSidebarNav"]::before {
         content: "Not Ready Time After Login Analysis";
         margin-left: 20px;
-        margin-top: 20px;
-        font-size: 24px;
-        position: relative;
-        top: 20px;
-        display: block;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #1f2937;
+        position: absolute;
+        top: 0;
     }
     </style>
 """, unsafe_allow_html=True)

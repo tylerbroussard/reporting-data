@@ -8,12 +8,16 @@ from datetime import datetime
 st.set_page_config(
     page_title="Agent Occupancy Analysis",
     page_icon="📊",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 # Add custom CSS
 st.markdown("""
     <style>
+    .main {
+        padding: 1rem;
+    }
     .metric-row {
         background-color: #f0f2f6;
         padding: 1rem;
@@ -29,6 +33,9 @@ st.markdown("""
     div[data-testid="stMetricValue"] > div {
         font-size: 1.2rem !important;
     }
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
     </style>
 """, unsafe_allow_html=True)
 
