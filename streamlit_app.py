@@ -26,9 +26,7 @@ st.markdown("""
         border-radius: 0.5rem;
     }
     div[data-testid="stMetricValue"] {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: pre-wrap !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -78,7 +76,7 @@ def create_visualizations(df):
         with col1:
             start_date = df['DATE'].min().strftime('%m/%d/%y')
             end_date = df['DATE'].max().strftime('%m/%d/%y')
-            st.metric("📅 Date Range", f"{start_date} - {end_date}")
+            st.metric("📅 Date Range", f"{start_date} -\n{end_date}")
         
         # Create tabs for different views
         tab1, tab2 = st.tabs(["📊 Charts", "📑 Detailed Data"])
@@ -167,11 +165,18 @@ def create_visualizations(df):
                 
                 # Create daily summary metrics
                 st.markdown("#### 📊 Daily Summary")
-                daily_summary = filtered_df.groupby('DATE')['NOT READY SECONDS'].agg({
-                    'Total Hours': lambda x: sum(x) / 3600,
-                    'Average Hours': lambda x: sum(x) / (3600 * len(filtered_df['AGENT NAME'].unique())),
-                    'Active Agents': lambda x: len(x.unique())
-                }).reset_index()
+                
+                # Calculate metrics separately to avoid nested renamer
+                total_hours = filtered_df.groupby('DATE')['NOT READY SECONDS'].sum() / 3600
+                active_agents = filtered_df.groupby('DATE')['AGENT NAME'].nunique()
+                avg_hours = total_hours / active_agents
+                
+                daily_summary = pd.DataFrame({
+                    'DATE': total_hours.index,
+                    'Total Hours': total_hours.values,
+                    'Average Hours': avg_hours.values,
+                    'Active Agents': active_agents.values
+                })
                 
                 # Display daily summary chart
                 fig_daily = go.Figure()
