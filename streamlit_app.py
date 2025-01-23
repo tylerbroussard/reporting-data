@@ -44,7 +44,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("Not Ready Time After Login Analysis")
+st.title("⏱️ Not Ready Time After Login Analysis")
 st.markdown("""
     This dashboard analyzes agent not ready time data after login. Upload your CSV file to get started.
     

@@ -2,12 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-st.set_page_config(
-    page_title="Agent Productivity Exceptions",
-    page_icon="📞",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+st.set_page_config(page_title="Productivity Exceptions", layout="wide")
 
 # Add custom CSS
 st.markdown("""
