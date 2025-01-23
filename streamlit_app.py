@@ -10,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Add custom CSS for styling
+# Hide streamlit branding and add custom title
 st.markdown("""
     <style>
     .main {
@@ -24,26 +24,23 @@ st.markdown("""
     div[data-testid="stMetricValue"] > div {
         font-size: 1.2rem !important;
     }
-    section[data-testid="stSidebar"] > div > div:nth-child(1) > div > div > div > div > div > a > span {
-        display: none;
-    }
-    section[data-testid="stSidebar"] > div > div:nth-child(1) > div > div > div > div > div::before {
-        content: "Not Ready Time After Login Analysis";
-        margin-left: 4px;
-        position: absolute;
-        top: 4px;
-        font-size: 14px;
-        font-weight: 500;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# Hide the default menu button and Streamlit footer
-st.markdown("""
-    <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    /* Hide default sidebar title */
+    [data-testid="stSidebarNav"] > ul {
+        display: none;
+    }
+    /* Add custom sidebar title */
+    [data-testid="stSidebarNav"]::before {
+        content: "Not Ready Time After Login Analysis";
+        margin-left: 20px;
+        margin-top: 20px;
+        font-size: 24px;
+        position: relative;
+        top: 20px;
+        display: block;
+    }
     </style>
 """, unsafe_allow_html=True)
 
