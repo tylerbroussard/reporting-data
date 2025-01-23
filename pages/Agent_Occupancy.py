@@ -295,18 +295,34 @@ uploaded_file = st.file_uploader("Upload your Agent Occupancy CSV file", type=['
 
 if uploaded_file is not None:
     try:
+        # Read the CSV and show the first few rows for debugging
         df = pd.read_csv(uploaded_file)
+        st.write("CSV Preview:")
+        st.write(df.head())
+        st.write("Columns in CSV:", df.columns.tolist())
+        
         required_columns = [
             'AGENT', 'AGENT FIRST NAME', 'AGENT LAST NAME', 'DATE',
             'LOGIN TIME', 'NOT READY TIME', 'WAIT TIME', 'ON CALL TIME',
             'ON ACW TIME'
         ]
         
-        if all(col in df.columns for col in required_columns):
+        # Check which columns are missing
+        missing_columns = [col for col in required_columns if col not in df.columns]
+        if missing_columns:
+            st.error(f"Missing columns: {', '.join(missing_columns)}")
+            return
+            
+        try:
             create_visualizations(df)
-        else:
-            st.error(f"The CSV file must contain these columns: {', '.join(required_columns)}")
+        except Exception as e:
+            import traceback
+            st.error(f"Error in create_visualizations: {str(e)}")
+            st.error("Traceback:")
+            st.code(traceback.format_exc())
+            
     except Exception as e:
         st.error(f"Error reading the file: {str(e)}")
+        st.error("Please make sure your CSV file is in the correct format")
 else:
     st.info("👆 Please upload a CSV file to begin the analysis.")
