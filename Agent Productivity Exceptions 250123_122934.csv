@@ -1,0 +1,117 @@
+AGENT GROUP,AGENT,AGENT FIRST NAME,AGENT LAST NAME,CALLS count,LONG CALLS count,SHORT CALLS count,LONG AFTER CALL WORK count,SHORT AFTER CALL WORK count,TRANSFERS TO SAME QUEUE count,AGENT DISCONNECTS FIRST count,DISCONNECTED FROM HOLD count,CALLS UNANSWERED BY AGENT count,LONG HOLDS count,LONG PARKS count
+BAU,Jay.Warnett@bissell.com,Jay,Warnett,2,0,0,,,0,1,0,,0,0
+BAU,Mario.Watson@s2g.net,Mario,Watson,2,0,0,,,0,0,0,,0,0
+BAU,seyri.vergara@hktteleservices.us,Seyri,Vergara,2,0,0,,,0,0,1,,1,0
+CAN French,anne.barrantes@s2g.net,Anne,Barrantes,3,2,0,,,0,0,0,,0,0
+CAN French,david.legros@s2g.net,David,Legros,10,6,0,,,0,2,0,,0,0
+CAN French,juanp.arias@s2g.net,Juan,Arias,2,1,0,,,0,0,0,,0,0
+CAN French,karla.salablanca@s2g.net,Karla,Salablanca,4,2,0,,,0,1,0,,1,0
+English Agents,akeem.nereida@s2g.net,Akeem,Nereida,6,3,0,,,0,2,0,,1,0
+English Agents,Allan.Umana@s2g.net,Allan,Umana,2,1,0,,,0,1,0,,0,0
+English Agents,antonio.batista@s2g.net,Antonio,Batista,11,5,0,,,0,1,0,,1,0
+English Agents,anyuri.grimes@s2g.net,Anyuri,Grimes,12,2,0,,,0,3,0,,1,0
+English Agents,arnold.martinez@s2g.net,Arnold,Martinez,12,0,0,,,0,1,0,,1,0
+English Agents,aylin.demera@s2g.net,Aylin,Demera,9,1,0,,,0,6,0,,0,0
+English Agents,bianca.martinez@s2g.net,Bianca,Martinez,5,1,0,,,0,0,0,,2,0
+English Agents,carlos.soto@s2g.net,Carlos,Soto,1,0,0,,,0,0,0,,0,0
+English Agents,cecilia.sutherland@s2g.net,Cecilia de,Sutherland,7,4,0,,,0,1,0,,2,0
+English Agents,ciannie.barnes@s2g.net,Ciannie,Barnes,23,4,12,,,0,17,1,,1,0
+English Agents,cricelis.gomez@s2g.net,Cricelis,Gomez,8,5,0,,,0,0,0,,2,0
+English Agents,cristhian.zamora@s2g.net,Cristhian,Zamora,16,0,0,,,0,1,1,,0,0
+English Agents,darline.bernard@s2g.net,Darline,Bernard,14,3,0,,,0,1,0,,0,0
+English Agents,darrel.bennett@s2g.net,Darrel,Bennett,9,2,0,,,0,1,0,,1,0
+English Agents,deydree.sutherland@s2g.net,Deydree,Sutherland,5,1,0,,,0,0,0,,1,0
+English Agents,eric.garcia@s2g.net,Eric,Garcia,11,0,0,,,0,4,0,,2,0
+English Agents,errick.gale@s2g.net,Errick,Gale,7,2,0,,,0,0,0,,0,0
+English Agents,Evelyn.Segura@s2g.net,Evelyn,Segura,9,4,0,,,0,1,0,,0,0
+English Agents,george.miller@s2g.net,George,Miller,12,0,0,,,0,4,1,,0,0
+English Agents,gino.carballo@s2g.net,Gino,Carballo,14,5,0,,,0,1,0,,0,0
+English Agents,hugo.gonzalez@s2g.net,Hugo,Gonzalez,10,5,2,,,0,4,0,,1,0
+English Agents,humberto.bulgin@s2g.net,Humberto,Bulgin,9,4,0,,,0,1,0,,0,0
+English Agents,issam.zerda@s2g.net,Issam,Zerda,5,2,0,,,0,0,0,,1,0
+English Agents,Javier.Subia@s2g.net,Javier,Subia,19,3,9,,,0,9,0,,0,0
+English Agents,Jay.Warnett@bissell.com,Jay,Warnett,2,0,0,,,0,1,0,,0,0
+English Agents,jesus.aguilar@s2g.net,Jesus,Aguilar,9,2,0,,,0,1,0,,0,0
+English Agents,Jetyffeer.Francis@s2g.net,Jettyfeer,Francis,5,1,0,,,0,2,0,,0,0
+English Agents,jMartinez@s2g.net,Juan,Martinez,11,3,0,,,0,0,0,,1,0
+English Agents,johan.rodriguez@s2g.net,Johan,Rodriguez,10,1,0,,,0,0,0,,1,0
+English Agents,johan.solano@s2g.net,Johan,Solano,14,5,1,,,0,4,0,,0,0
+English Agents,jonathan.hernandez@s2g.net,Jonathan,Alvarez,12,4,0,,,0,1,0,,0,0
+English Agents,juan.andujo@s2g.net,Juan,Andujo,3,1,0,,,0,1,0,,0,0
+English Agents,juan.martinez@s2g.net,Diego,Martinez,10,5,0,,,0,3,0,,0,0
+English Agents,lancelot.gordon@s2g.net,Lancelot,Gordon,10,5,1,,,0,2,0,,1,0
+English Agents,lauren.harber@s2g.net,Lauren,Harber,12,4,0,,,0,5,0,,0,0
+English Agents,Lexy.Cespedes@s2g.net,Lexy,Cespedes,13,3,0,,,0,8,0,,0,0
+English Agents,luis.acevedo@s2g.net,Luis,Acevedo,1,0,0,,,0,1,0,,0,0
+English Agents,luvva.bailey@s2g.net,Luvva,Bailey,12,2,0,,,0,4,2,,0,0
+English Agents,Manuel.Ortega@s2g.net,Manuel,Ortega,12,4,1,,,0,1,0,,3,0
+English Agents,marcela.segura@s2g.net,Marcela,Segura,15,6,0,,,0,0,0,,0,0
+English Agents,mario.seeley@s2g.net,Mario,Seeley,9,4,0,,,0,2,0,,2,0
+English Agents,Mario.Watson@s2g.net,Mario,Watson,2,0,0,,,0,0,0,,0,0
+English Agents,monica.granados@s2g.net,Monica,Granados,16,4,2,,,0,4,1,,2,0
+English Agents,oscar.jimenez1@s2g.net,Oscar,Jimenez,6,3,0,,,0,1,0,,3,0
+English Agents,richard.clarke@s2g.net,Richard,Clarke,11,4,0,,,0,2,0,,2,0
+English Agents,roberto.endara@hktteleservices.us,Roberto,Endara,14,3,0,,,0,0,0,,2,0
+English Agents,roger.meyers@s2g.net,Roger,Meyers,4,2,0,,,0,0,0,,1,0
+English Agents,romario.mela@s2g.net,Romario,Mela,6,2,0,,,0,2,0,,0,0
+English Agents,scarlett.dleon@s2g.net,Scarlett,D'Leon,11,0,0,,,0,3,0,,0,0
+English Agents,seyri.vergara@hktteleservices.us,Seyri,Vergara,2,0,0,,,0,0,1,,1,0
+English Agents,vianey.acevedo@hktteleservices.us,vianey,acevedo,1,0,0,,,0,0,0,,0,0
+English Agents,yadiell.garcia@s2g.net,Yadiell,Garcia,10,1,0,,,0,0,0,,0,0
+English Agents,yamir.slacedo@s2g.net,Yamir,Salcedo,11,0,2,,,0,2,0,,0,0
+SSG PAN,akeem.nereida@s2g.net,Akeem,Nereida,6,3,0,,,0,2,0,,1,0
+SSG PAN,antonio.batista@s2g.net,Antonio,Batista,11,5,0,,,0,1,0,,1,0
+SSG PAN,anyuri.grimes@s2g.net,Anyuri,Grimes,12,2,0,,,0,3,0,,1,0
+SSG PAN,aylin.demera@s2g.net,Aylin,Demera,9,1,0,,,0,6,0,,0,0
+SSG PAN,bianca.martinez@s2g.net,Bianca,Martinez,5,1,0,,,0,0,0,,2,0
+SSG PAN,cecilia.sutherland@s2g.net,Cecilia de,Sutherland,7,4,0,,,0,1,0,,2,0
+SSG PAN,cricelis.gomez@s2g.net,Cricelis,Gomez,8,5,0,,,0,0,0,,2,0
+SSG PAN,darline.bernard@s2g.net,Darline,Bernard,14,3,0,,,0,1,0,,0,0
+SSG PAN,darrel.bennett@s2g.net,Darrel,Bennett,9,2,0,,,0,1,0,,1,0
+SSG PAN,deydree.sutherland@s2g.net,Deydree,Sutherland,5,1,0,,,0,0,0,,1,0
+SSG PAN,eric.garcia@s2g.net,Eric,Garcia,11,0,0,,,0,4,0,,2,0
+SSG PAN,errick.gale@s2g.net,Errick,Gale,7,2,0,,,0,0,0,,0,0
+SSG PAN,george.miller@s2g.net,George,Miller,12,0,0,,,0,4,1,,0,0
+SSG PAN,hugo.gonzalez@s2g.net,Hugo,Gonzalez,10,5,2,,,0,4,0,,1,0
+SSG PAN,humberto.bulgin@s2g.net,Humberto,Bulgin,9,4,0,,,0,1,0,,0,0
+SSG PAN,issam.zerda@s2g.net,Issam,Zerda,5,2,0,,,0,0,0,,1,0
+SSG PAN,Javier.Subia@s2g.net,Javier,Subia,19,3,9,,,0,9,0,,0,0
+SSG PAN,jesus.aguilar@s2g.net,Jesus,Aguilar,9,2,0,,,0,1,0,,0,0
+SSG PAN,johan.rodriguez@s2g.net,Johan,Rodriguez,10,1,0,,,0,0,0,,1,0
+SSG PAN,lancelot.gordon@s2g.net,Lancelot,Gordon,10,5,1,,,0,2,0,,1,0
+SSG PAN,luis.acevedo@s2g.net,Luis,Acevedo,1,0,0,,,0,1,0,,0,0
+SSG PAN,luvva.bailey@s2g.net,Luvva,Bailey,12,2,0,,,0,4,2,,0,0
+SSG PAN,mario.seeley@s2g.net,Mario,Seeley,9,4,0,,,0,2,0,,2,0
+SSG PAN,Mario.Watson@s2g.net,Mario,Watson,2,0,0,,,0,0,0,,0,0
+SSG PAN,richard.clarke@s2g.net,Richard,Clarke,11,4,0,,,0,2,0,,2,0
+SSG PAN,roberto.endara@hktteleservices.us,Roberto,Endara,14,3,0,,,0,0,0,,2,0
+SSG PAN,roger.meyers@s2g.net,Roger,Meyers,4,2,0,,,0,0,0,,1,0
+SSG PAN,romario.mela@s2g.net,Romario,Mela,6,2,0,,,0,2,0,,0,0
+SSG PAN,scarlett.dleon@s2g.net,Scarlett,D'Leon,11,0,0,,,0,3,0,,0,0
+SSG PAN,seyri.vergara@hktteleservices.us,Seyri,Vergara,2,0,0,,,0,0,1,,1,0
+SSG PAN,vianey.acevedo@hktteleservices.us,vianey,acevedo,1,0,0,,,0,0,0,,0,0
+SSG PAN,yamir.slacedo@s2g.net,Yamir,Salcedo,11,0,2,,,0,2,0,,0,0
+SSG SAN JOSE,Allan.Umana@s2g.net,Allan,Umana,2,1,0,,,0,1,0,,0,0
+SSG SAN JOSE,anne.barrantes@s2g.net,Anne,Barrantes,3,2,0,,,0,0,0,,0,0
+SSG SAN JOSE,arnold.martinez@s2g.net,Arnold,Martinez,12,0,0,,,0,1,0,,1,0
+SSG SAN JOSE,carlos.soto@s2g.net,Carlos,Soto,1,0,0,,,0,0,0,,0,0
+SSG SAN JOSE,ciannie.barnes@s2g.net,Ciannie,Barnes,23,4,12,,,0,17,1,,1,0
+SSG SAN JOSE,cristhian.zamora@s2g.net,Cristhian,Zamora,16,0,0,,,0,1,1,,0,0
+SSG SAN JOSE,david.legros@s2g.net,David,Legros,10,6,0,,,0,2,0,,0,0
+SSG SAN JOSE,Evelyn.Segura@s2g.net,Evelyn,Segura,9,4,0,,,0,1,0,,0,0
+SSG SAN JOSE,gino.carballo@s2g.net,Gino,Carballo,14,5,0,,,0,1,0,,0,0
+SSG SAN JOSE,Jetyffeer.Francis@s2g.net,Jettyfeer,Francis,5,1,0,,,0,2,0,,0,0
+SSG SAN JOSE,jMartinez@s2g.net,Juan,Martinez,11,3,0,,,0,0,0,,1,0
+SSG SAN JOSE,johan.solano@s2g.net,Johan,Solano,14,5,1,,,0,4,0,,0,0
+SSG SAN JOSE,jonathan.hernandez@s2g.net,Jonathan,Alvarez,12,4,0,,,0,1,0,,0,0
+SSG SAN JOSE,juan.andujo@s2g.net,Juan,Andujo,3,1,0,,,0,1,0,,0,0
+SSG SAN JOSE,juan.martinez@s2g.net,Diego,Martinez,10,5,0,,,0,3,0,,0,0
+SSG SAN JOSE,juanp.arias@s2g.net,Juan,Arias,2,1,0,,,0,0,0,,0,0
+SSG SAN JOSE,karla.salablanca@s2g.net,Karla,Salablanca,4,2,0,,,0,1,0,,1,0
+SSG SAN JOSE,lauren.harber@s2g.net,Lauren,Harber,12,4,0,,,0,5,0,,0,0
+SSG SAN JOSE,Lexy.Cespedes@s2g.net,Lexy,Cespedes,13,3,0,,,0,8,0,,0,0
+SSG SAN JOSE,Manuel.Ortega@s2g.net,Manuel,Ortega,12,4,1,,,0,1,0,,3,0
+SSG SAN JOSE,marcela.segura@s2g.net,Marcela,Segura,15,6,0,,,0,0,0,,0,0
+SSG SAN JOSE,monica.granados@s2g.net,Monica,Granados,16,4,2,,,0,4,1,,2,0
+SSG SAN JOSE,oscar.jimenez1@s2g.net,Oscar,Jimenez,6,3,0,,,0,1,0,,3,0
+SSG SAN JOSE,yadiell.garcia@s2g.net,Yadiell,Garcia,10,1,0,,,0,0,0,,0,0
