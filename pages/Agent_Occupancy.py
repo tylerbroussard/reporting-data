@@ -74,7 +74,7 @@ def create_visualizations(df):
                 df[f'{col}_SECONDS'] = df[col].apply(time_to_seconds)
 
         # Calculate additional metrics
-        df['Full Name'] = df['AGENT FIRST NAME'] + ' ' + df['AGENT LAST NAME'].fillna('')
+        df['Full Name'] = df['AGENT FIRST NAME'].fillna('') + ' ' + df['AGENT LAST NAME'].fillna('')
         df['Total Active Time'] = df['ON CALL TIME_SECONDS'] + df['ON ACW TIME_SECONDS']
         df['Occupancy %'] = (df['Total Active Time'] / df['LOGIN TIME_SECONDS'] * 100).fillna(0)
         df['Utilization %'] = (df['Total Active Time'] / (df['LOGIN TIME_SECONDS'] - df['NOT READY TIME_SECONDS']) * 100).fillna(0)
@@ -210,104 +210,75 @@ def create_visualizations(df):
             )
             st.plotly_chart(fig_breakdown, use_container_width=True)
 
-            # Scatter plot of Occupancy vs Utilization
-            fig_scatter = px.scatter(
-                df,
-                x='Occupancy %',
-                y='Utilization %',
-                text='Full Name',
-                title='Occupancy vs Utilization by Agent',
-                height=500
-            )
-            fig_scatter.update_traces(
-                textposition='top center',
-                marker=dict(size=10)
-            )
-            fig_scatter.update_layout(
-                xaxis_title="Occupancy %",
-                yaxis_title="Utilization %"
-            )
-            st.plotly_chart(fig_scatter, use_container_width=True)
-
         with tab3:
             st.subheader("Hourly Performance Trends")
             
-            # Convert login time to hour
-            df['Login Hour'] = pd.to_datetime(df['LOGIN TIME'], format='%H:%M:%S').dt.hour
+            # Convert DATE to datetime and extract hour
+            df['Hour'] = pd.to_datetime(df['DATE']).dt.hour
             
-            # Calculate metrics by hour
-            hourly_metrics = df.groupby('Login Hour').agg({
+            # Calculate hourly metrics
+            hourly_metrics = df.groupby('Hour').agg({
                 'ON CALL TIME_SECONDS': 'sum',
-                'NOT READY TIME_SECONDS': 'sum',
-                'WAIT TIME_SECONDS': 'sum',
                 'Occupancy %': 'mean'
             }).reset_index()
             
-            # Create subplot with two y-axes
+            # Create dual-axis chart
             fig_hourly = make_subplots(specs=[[{"secondary_y": True}]])
             
-            # Add bars for time metrics
             fig_hourly.add_trace(
                 go.Bar(
-                    name="On Call Time",
-                    x=hourly_metrics['Login Hour'],
+                    name="Call Time",
+                    x=hourly_metrics['Hour'],
                     y=hourly_metrics['ON CALL TIME_SECONDS'] / 3600,
                     marker_color='rgb(60, 179, 113)'
                 ),
                 secondary_y=False
             )
             
-            # Add line for occupancy
             fig_hourly.add_trace(
                 go.Scatter(
-                    name="Average Occupancy",
-                    x=hourly_metrics['Login Hour'],
+                    name="Occupancy",
+                    x=hourly_metrics['Hour'],
                     y=hourly_metrics['Occupancy %'],
-                    line=dict(color='rgb(255, 99, 71)', width=2),
-                    mode='lines+markers'
+                    mode='lines+markers',
+                    line=dict(color='rgb(255, 99, 71)')
                 ),
                 secondary_y=True
             )
             
             fig_hourly.update_layout(
-                title="Hourly Performance Metrics",
+                title="Hourly Performance Trends",
                 xaxis_title="Hour of Day",
                 height=400,
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
             )
-            fig_hourly.update_yaxes(title_text="Hours", secondary_y=False)
+            
+            fig_hourly.update_yaxes(title_text="Call Hours", secondary_y=False)
             fig_hourly.update_yaxes(title_text="Occupancy %", secondary_y=True)
             
             st.plotly_chart(fig_hourly, use_container_width=True)
 
         with tab4:
-            # Detailed data view with more metrics
-            st.subheader("Agent Details")
+            st.subheader("📑 Detailed Data View")
             
-            # Format time columns for display
-            display_df = df.copy()
-            for col in time_columns:
-                if col in display_df.columns:
-                    display_df[col] = display_df[f'{col}_SECONDS'].apply(format_time)
+            # Prepare data for display
+            display_df = df[[
+                'Full Name', 'LOGIN TIME', 'NOT READY TIME', 'WAIT TIME',
+                'ON CALL TIME', 'ON ACW TIME', 'Occupancy %', 'Utilization %'
+            ]].copy()
             
             # Format percentages
-            display_df['Occupancy %'] = display_df['Occupancy %'].apply(format_percentage)
-            display_df['Utilization %'] = display_df['Utilization %'].apply(format_percentage)
-            
-            # Select columns for display
-            display_columns = [
-                'Full Name', 'LOGIN TIME', 'NOT READY TIME', 'WAIT TIME', 
-                'ON CALL TIME', 'ON ACW TIME', 'Occupancy %', 'Utilization %'
-            ]
+            display_df['Occupancy %'] = display_df['Occupancy %'].apply(lambda x: f"{x:.1f}%")
+            display_df['Utilization %'] = display_df['Utilization %'].apply(lambda x: f"{x:.1f}%")
             
             st.dataframe(
-                display_df[display_columns].sort_values('Occupancy %', ascending=False),
+                display_df,
                 hide_index=True,
                 height=400
             )
             
             # Add download button
-            csv = display_df[display_columns].to_csv(index=False)
+            csv = display_df.to_csv(index=False)
             st.download_button(
                 label="📥 Download Data",
                 data=csv,
@@ -325,7 +296,12 @@ uploaded_file = st.file_uploader("Upload your Agent Occupancy CSV file", type=['
 if uploaded_file is not None:
     try:
         df = pd.read_csv(uploaded_file)
-        required_columns = ['AGENT', 'LOGIN TIME', 'NOT READY TIME']
+        required_columns = [
+            'AGENT', 'AGENT FIRST NAME', 'AGENT LAST NAME', 'DATE',
+            'LOGIN TIME', 'NOT READY TIME', 'WAIT TIME', 'ON CALL TIME',
+            'ON ACW TIME'
+        ]
+        
         if all(col in df.columns for col in required_columns):
             create_visualizations(df)
         else:
