@@ -116,45 +116,46 @@ def create_visualizations(df):
             )
             st.plotly_chart(fig_occupancy, use_container_width=True)
 
-            # Time breakdown by agent
-            selected_agents = st.multiselect(
-                "Select Agents for Time Breakdown",
-                options=sorted(df['Full Name'].unique()),
-                default=sorted(df['Full Name'].unique())[:5]
-            )
-
-            if selected_agents:
-                df_selected = df[df['Full Name'].isin(selected_agents)]
-                
-                fig_breakdown = go.Figure()
-                
-                # Add traces for each time metric
-                metrics = [
-                    ('Not Ready', 'NOT READY TIME_SECONDS'),
-                    ('Wait', 'WAIT TIME_SECONDS'),
-                    ('On Call', 'ON CALL TIME_SECONDS'),
-                    ('ACW', 'ON ACW TIME_SECONDS')
-                ]
-                
-                for label, column in metrics:
-                    fig_breakdown.add_trace(
-                        go.Bar(
-                            name=label,
-                            x=df_selected[column] / 3600,  # Convert to hours
-                            y=df_selected['Full Name'],
-                            orientation='h'
-                        )
+            # Time breakdown for all agents
+            st.subheader("Time Breakdown by Agent")
+            
+            # Sort agents by total time for better visualization
+            df['Total Time'] = df['NOT READY TIME_SECONDS'] + df['WAIT TIME_SECONDS'] + \
+                              df['ON CALL TIME_SECONDS'] + df['ON ACW TIME_SECONDS']
+            df_sorted = df.sort_values('Total Time', ascending=True)
+            
+            fig_breakdown = go.Figure()
+            
+            # Add traces for each time metric
+            metrics = [
+                ('Not Ready', 'NOT READY TIME_SECONDS', 'rgb(255, 99, 71)'),  # Tomato red
+                ('Wait', 'WAIT TIME_SECONDS', 'rgb(255, 195, 0)'),           # Golden yellow
+                ('On Call', 'ON CALL TIME_SECONDS', 'rgb(60, 179, 113)'),    # Medium sea green
+                ('ACW', 'ON ACW TIME_SECONDS', 'rgb(30, 144, 255)')         # Dodger blue
+            ]
+            
+            for label, column, color in metrics:
+                fig_breakdown.add_trace(
+                    go.Bar(
+                        name=label,
+                        x=df_sorted[column] / 3600,  # Convert to hours
+                        y=df_sorted['Full Name'],
+                        orientation='h',
+                        marker_color=color
                     )
-                
-                fig_breakdown.update_layout(
-                    barmode='stack',
-                    title="Time Breakdown by Agent",
-                    xaxis_title="Hours",
-                    height=max(400, len(selected_agents) * 30),
-                    legend_title="Time Type",
-                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
                 )
-                st.plotly_chart(fig_breakdown, use_container_width=True)
+            
+            fig_breakdown.update_layout(
+                barmode='stack',
+                title="Time Distribution by Agent",
+                xaxis_title="Hours",
+                yaxis_title="Agent Name",
+                height=max(600, len(df) * 25),
+                legend_title="Time Type",
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                margin=dict(l=200)  # Add more margin for agent names
+            )
+            st.plotly_chart(fig_breakdown, use_container_width=True)
 
         with tab3:
             # Detailed data view
