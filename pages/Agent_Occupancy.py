@@ -7,7 +7,7 @@ from datetime import datetime
 
 st.set_page_config(
     page_title="Agent Occupancy Analysis",
-    page_icon="",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -39,7 +39,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("")
+st.title("📊 Agent Occupancy Analysis")
 st.markdown("""
     This dashboard provides detailed insights into agent occupancy, utilization, and time distribution metrics.
     Upload your CSV file to begin the analysis.
@@ -327,18 +327,17 @@ if uploaded_file is not None:
         missing_columns = [col for col in required_columns if col not in df.columns]
         if missing_columns:
             st.error(f"Missing columns: {', '.join(missing_columns)}")
-            return
-            
-        try:
-            create_visualizations(df)
-        except Exception as e:
-            import traceback
-            st.error(f"Error in create_visualizations: {str(e)}")
-            st.error("Traceback:")
-            st.code(traceback.format_exc())
+        else:
+            try:
+                create_visualizations(df)
+            except Exception as e:
+                import traceback
+                st.error(f"Error in create_visualizations: {str(e)}")
+                st.error("Traceback:")
+                st.code(traceback.format_exc())
             
     except Exception as e:
         st.error(f"Error reading the file: {str(e)}")
         st.error("Please make sure your CSV file is in the correct format")
 else:
-    st.info(" Please upload a CSV file to begin the analysis.")
+    st.info("Please upload a CSV file to begin the analysis.")
