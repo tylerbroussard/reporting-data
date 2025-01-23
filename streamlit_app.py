@@ -2,9 +2,11 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import streamlit.components.v1 as components
 
+# Rename main page to match the content
 st.set_page_config(
-    page_title="Not Ready Analysis",
+    page_title="Not Ready Time Analysis",
     page_icon="⏱️",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -15,12 +17,12 @@ st.set_page_config(
     }
 )
 
-# Rename the page in the sidebar
-st.sidebar.header("Not Ready Time Analysis")
-
-# Add custom CSS
+# Hide the default menu button and Streamlit footer
 st.markdown("""
     <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
     .main {
         padding: 1rem;
     }
@@ -34,6 +36,19 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
+# Add custom JavaScript to rename the sidebar item
+components.html(
+    """
+    <script>
+        window.parent.document.querySelector("span.st-emotion-cache-16idsys").innerText = "Not Ready Time Analysis";
+    </script>
+    """,
+    height=0,
+)
+
+# Rename the page in the sidebar
+st.sidebar.header("Not Ready Time Analysis")
 
 st.title("⏱️ Not Ready Time Analysis")
 st.markdown("""
