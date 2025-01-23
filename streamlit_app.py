@@ -25,8 +25,9 @@ st.markdown("""
         padding: 1rem;
         border-radius: 0.5rem;
     }
-    div[data-testid="stMetricValue"] {
+    div[data-testid="stMetricValue"] > div {
         white-space: pre-wrap !important;
+        word-break: break-word !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -76,7 +77,7 @@ def create_visualizations(df):
         with col1:
             start_date = df['DATE'].min().strftime('%m/%d/%y')
             end_date = df['DATE'].max().strftime('%m/%d/%y')
-            st.metric("📅 Date Range", f"{start_date} -\n{end_date}")
+            st.metric("📅 Date Range", f"{start_date}\nto\n{end_date}")
         
         # Create tabs for different views
         tab1, tab2 = st.tabs(["📊 Charts", "📑 Detailed Data"])
@@ -274,8 +275,7 @@ def create_visualizations(df):
                     .format({
                         'DATE': lambda x: x.strftime('%Y-%m-%d'),
                         'NOT READY HOURS': '{:.2f}'
-                    })
-                    .background_gradient(subset=['NOT READY HOURS'], cmap='YlOrRd'),
+                    }),
                     hide_index=True,
                     height=400
                 )
