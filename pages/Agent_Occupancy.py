@@ -58,17 +58,24 @@ def time_to_seconds(time_str):
 
 def format_time(seconds):
     """Format seconds to HH:MM"""
-    if not isinstance(seconds, (int, float)) or pd.isna(seconds):
+    try:
+        if not isinstance(seconds, (int, float)) or pd.isna(seconds):
+            return "00:00"
+        hours = int(seconds) // 3600
+        minutes = (int(seconds) % 3600) // 60
+        return f"{hours:02d}:{minutes:02d}"
+    except Exception as e:
+        st.write(f"Error formatting time {seconds}: {str(e)}")
         return "00:00"
-    hours = int(seconds) // 3600
-    minutes = (int(seconds) % 3600) // 60
-    return f"{hours:02d}:{minutes:02d}"
 
 def format_percentage(value):
     """Format value as percentage"""
-    if pd.isna(value):
+    try:
+        if pd.isna(value) or not isinstance(value, (int, float)):
+            return "0.0%"
+        return f"{float(value):.1f}%"
+    except (ValueError, TypeError):
         return "0.0%"
-    return f"{float(value):.1f}%"
 
 def process_data(df):
     """Process the data and create visualizations"""
@@ -84,10 +91,11 @@ def process_data(df):
         for col in time_columns:
             if col in df.columns:
                 df[f'{col}_SECONDS'] = df[col].apply(time_to_seconds)
+                df[f'{col}_SECONDS'] = pd.to_numeric(df[f'{col}_SECONDS'], errors='coerce').fillna(0)
 
         # Calculate additional metrics
         df['Full Name'] = df['AGENT FIRST NAME'].fillna('') + ' ' + df['AGENT LAST NAME'].fillna('')
-        df['Total Active Time'] = df['ON CALL TIME_SECONDS'] + df['ON ACW TIME_SECONDS']
+        df['Total Active Time'] = df['ON CALL TIME_SECONDS'].fillna(0) + df['ON ACW TIME_SECONDS'].fillna(0)
         
         # Handle division by zero
         df['LOGIN TIME_SECONDS'] = df['LOGIN TIME_SECONDS'].replace(0, 1)  # Avoid division by zero
@@ -95,7 +103,8 @@ def process_data(df):
         
         not_ready_time = df['NOT READY TIME_SECONDS'].fillna(0)
         login_time = df['LOGIN TIME_SECONDS'].fillna(0)
-        df['Utilization %'] = (df['Total Active Time'] / (login_time - not_ready_time).replace(0, 1) * 100).clip(0, 100)
+        available_time = (login_time - not_ready_time).replace(0, 1)  # Avoid division by zero
+        df['Utilization %'] = (df['Total Active Time'] / available_time * 100).clip(0, 100)
         
         return df
     except Exception as e:
@@ -142,10 +151,10 @@ def create_visualizations(df):
             with col1:
                 # Time distribution chart
                 time_metrics = {
-                    'Not Ready': processed_df['NOT READY TIME_SECONDS'].sum(),
-                    'Wait': processed_df['WAIT TIME_SECONDS'].sum(),
-                    'On Call': processed_df['ON CALL TIME_SECONDS'].sum(),
-                    'ACW': processed_df['ON ACW TIME_SECONDS'].sum()
+                    'Not Ready': float(processed_df['NOT READY TIME_SECONDS'].sum()),
+                    'Wait': float(processed_df['WAIT TIME_SECONDS'].sum()),
+                    'On Call': float(processed_df['ON CALL TIME_SECONDS'].sum()),
+                    'ACW': float(processed_df['ON ACW TIME_SECONDS'].sum())
                 }
                 
                 if all(v == 0 for v in time_metrics.values()):
@@ -172,10 +181,12 @@ def create_visualizations(df):
                 if len(top_agents) > 0:
                     fig_top = go.Figure(data=[
                         go.Bar(
-                            x=top_agents['Occupancy %'],
+                            x=top_agents['Occupancy %'].round(1),
                             y=top_agents['Full Name'],
                             orientation='h',
-                            marker_color='rgb(60, 179, 113)'
+                            marker_color='rgb(60, 179, 113)',
+                            text=top_agents['Occupancy %'].round(1).apply(lambda x: f"{x:.1f}%"),
+                            textposition='auto',
                         )
                     ])
                     fig_top.update_layout(
@@ -194,8 +205,10 @@ def create_visualizations(df):
                 st.subheader("Agent Time Distribution")
                 
                 # Sort agents by total time
-                processed_df['Total Time'] = processed_df['NOT READY TIME_SECONDS'] + processed_df['WAIT TIME_SECONDS'] + \
-                                  processed_df['ON CALL TIME_SECONDS'] + processed_df['ON ACW TIME_SECONDS']
+                processed_df['Total Time'] = processed_df['NOT READY TIME_SECONDS'].fillna(0) + \
+                                          processed_df['WAIT TIME_SECONDS'].fillna(0) + \
+                                          processed_df['ON CALL TIME_SECONDS'].fillna(0) + \
+                                          processed_df['ON ACW TIME_SECONDS'].fillna(0)
                 
                 # Add filter for sorting
                 sort_by = st.selectbox(
@@ -225,13 +238,16 @@ def create_visualizations(df):
                     ]
                     
                     for label, column, color in metrics:
+                        hours = df_sorted[column].fillna(0) / 3600
                         fig_breakdown.add_trace(
                             go.Bar(
                                 name=label,
-                                x=df_sorted[column].fillna(0) / 3600,  # Convert to hours and handle NaN
+                                x=hours.round(2),  # Round to 2 decimals for better display
                                 y=df_sorted['Full Name'],
                                 orientation='h',
                                 marker_color=color,
+                                text=hours.round(1).apply(lambda x: f"{x:.1f}h"),
+                                textposition='auto',
                                 hovertemplate="%{y}<br>" +
                                             f"{label}: %{x:.1f} hours<br>" +
                                             "<extra></extra>"
@@ -271,23 +287,33 @@ def create_visualizations(df):
                     # Create dual-axis chart
                     fig_hourly = make_subplots(specs=[[{"secondary_y": True}]])
                     
+                    # Calculate call hours
+                    call_hours = hourly_metrics['ON CALL TIME_SECONDS'].fillna(0) / 3600
+                    
                     fig_hourly.add_trace(
                         go.Bar(
                             name="Call Time",
                             x=hourly_metrics['Hour'],
-                            y=hourly_metrics['ON CALL TIME_SECONDS'].fillna(0) / 3600,  # Convert to hours
-                            marker_color='rgb(60, 179, 113)'
+                            y=call_hours.round(2),
+                            marker_color='rgb(60, 179, 113)',
+                            text=call_hours.round(1).apply(lambda x: f"{x:.1f}h"),
+                            textposition='auto',
                         ),
                         secondary_y=False
                     )
+                    
+                    # Calculate occupancy percentages
+                    occupancy = hourly_metrics['Occupancy %'].fillna(0)
                     
                     fig_hourly.add_trace(
                         go.Scatter(
                             name="Occupancy",
                             x=hourly_metrics['Hour'],
-                            y=hourly_metrics['Occupancy %'].fillna(0),  # Handle NaN values
-                            mode='lines+markers',
-                            line=dict(color='rgb(255, 99, 71)')
+                            y=occupancy.round(1),
+                            mode='lines+markers+text',
+                            line=dict(color='rgb(255, 99, 71)'),
+                            text=occupancy.round(1).apply(lambda x: f"{x:.1f}%"),
+                            textposition='top center',
                         ),
                         secondary_y=True
                     )
@@ -319,8 +345,8 @@ def create_visualizations(df):
                 ]].copy()
                 
                 # Format percentages
-                display_df['Occupancy %'] = display_df['Occupancy %'].apply(lambda x: f"{x:.1f}%")
-                display_df['Utilization %'] = display_df['Utilization %'].apply(lambda x: f"{x:.1f}%")
+                display_df['Occupancy %'] = display_df['Occupancy %'].apply(format_percentage)
+                display_df['Utilization %'] = display_df['Utilization %'].apply(format_percentage)
                 
                 st.dataframe(
                     display_df,
