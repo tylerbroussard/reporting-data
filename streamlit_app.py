@@ -2,27 +2,17 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-import streamlit.components.v1 as components
 
-# Rename main page to match the content
 st.set_page_config(
-    page_title="Not Ready Time Analysis",
+    page_title="Not Ready Time After Login Analysis",
     page_icon="⏱️",
     layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': None,
-        'Report a bug': None,
-        'About': None
-    }
+    initial_sidebar_state="expanded"
 )
 
-# Hide the default menu button and Streamlit footer
+# Add custom CSS for styling
 st.markdown("""
     <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
     .main {
         padding: 1rem;
     }
@@ -34,25 +24,32 @@ st.markdown("""
     div[data-testid="stMetricValue"] > div {
         font-size: 1.2rem !important;
     }
+    section[data-testid="stSidebar"] > div > div:nth-child(1) > div > div > div > div > div > a > span {
+        display: none;
+    }
+    section[data-testid="stSidebar"] > div > div:nth-child(1) > div > div > div > div > div::before {
+        content: "Not Ready Time After Login Analysis";
+        margin-left: 4px;
+        position: absolute;
+        top: 4px;
+        font-size: 14px;
+        font-weight: 500;
+    }
     </style>
 """, unsafe_allow_html=True)
 
-# Add custom JavaScript to rename the sidebar item
-components.html(
-    """
-    <script>
-        window.parent.document.querySelector("span.st-emotion-cache-16idsys").innerText = "Not Ready Time Analysis";
-    </script>
-    """,
-    height=0,
-)
-
-# Rename the page in the sidebar
-st.sidebar.header("Not Ready Time Analysis")
-
-st.title("⏱️ Not Ready Time Analysis")
+# Hide the default menu button and Streamlit footer
 st.markdown("""
-    This dashboard analyzes agent not ready time data. Upload your CSV file to get started.
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    </style>
+""", unsafe_allow_html=True)
+
+st.title("⏱️ Not Ready Time After Login Analysis")
+st.markdown("""
+    This dashboard analyzes agent not ready time data after login. Upload your CSV file to get started.
     
     The CSV should contain these columns:
     - `AGENT NAME`

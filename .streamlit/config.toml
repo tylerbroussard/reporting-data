@@ -1,0 +1,18 @@
+[browser]
+gatherUsageStats = false
+
+[client]
+showErrorDetails = false
+toolbarMode = "minimal"
+
+[theme]
+primaryColor = "#0096D7"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F2F6"
+textColor = "#262730"
+
+[server]
+enableStaticServing = true
+
+[ui]
+hideTopBar = true
