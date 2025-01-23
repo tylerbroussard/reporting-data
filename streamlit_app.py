@@ -65,7 +65,7 @@ def create_visualizations(df):
         agent_total = df.groupby('AGENT NAME')['NOT READY SECONDS'].sum().sort_values(ascending=False)
         
         # Create metrics
-        st.markdown("### 📈 Key Metrics")
+        st.markdown("### Metrics")
         col1, col2, col3, col4 = st.columns([1, 1, 1, 1.2])
         
         with col2:
