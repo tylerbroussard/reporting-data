@@ -45,7 +45,7 @@ st.markdown("""
     }
     /* Add title above navigation */
     [data-testid="stSidebarNav"]::before {
-        content: "Not Ready Time After Login Analysis";
+        content: "Time Spent in Not Ready After Login Analysis";
         margin-left: 20px;
         font-size: 1.2rem;
         font-weight: 600;
@@ -56,7 +56,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("⏱️ Not Ready Time After Login Analysis")
+st.title("⏱️ Time Spent in Not Ready After Login Analysis")
 st.markdown("""
     This dashboard analyzes agent not ready time data after login. Upload your CSV file to get started.
     
