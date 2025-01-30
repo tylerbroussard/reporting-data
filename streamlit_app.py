@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 st.set_page_config(
-    page_title="Not Ready Time After Login Analysis",
+    page_title="Time Spent in Not Ready After Login Analysis",
     page_icon="⏱️",
     layout="wide",
     initial_sidebar_state="expanded"
